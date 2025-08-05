@@ -86,7 +86,8 @@ library
   hs-source-dirs: src
   exposed-modules:
     Example.Project,
-    SwitchesToLEDs.Project
+    SwitchesToLEDs.Project,
+    LightingWithLogic.Project
   default-language: Haskell2010
 
 -- Builds the executable 'clash', with nandland2 project in scope
