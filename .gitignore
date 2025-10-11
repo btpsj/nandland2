@@ -42,3 +42,7 @@ cabal.config
 /vhdl
 /verilog
 /systemverilog
+
+# Open source toolchain output files
+design.json
+bitstream.txt
