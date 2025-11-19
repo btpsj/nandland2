@@ -39,6 +39,20 @@ packages:
       size: 300
   original:
     hackage: prettyprinter-interp-0.2.0.0@sha256:69c339a95b265dab9b3478ca19ec96952b6b472bd0ff6e2127112a9562362c1d,2086
+- completed:
+    hackage: retroclash-lib-0.1.2.3@sha256:c3b2c2757f4950a42663f2bc1693c0b81ca37885955ac1702e59dcee87900b49,3221
+    pantry-tree:
+      sha256: a03b5429836435d27a2bd44a7c67941ba6eb9c5ca3115c86d93ced62e9b0cd09
+      size: 1274
+  original:
+    hackage: retroclash-lib-0.1.2.3@sha256:c3b2c2757f4950a42663f2bc1693c0b81ca37885955ac1702e59dcee87900b49,3221
+- completed:
+    hackage: barbies-2.0.5.0@sha256:2a6c67af6b12b7771ca8c4503819055800bd47c03cb7cab095d45f129bdaa310,4407
+    pantry-tree:
+      sha256: b85332a64087423fed7bbcaed358c71b0d00875a2d667b3de23833d375706a3f
+      size: 4429
+  original:
+    hackage: barbies-2.0.5.0@sha256:2a6c67af6b12b7771ca8c4503819055800bd47c03cb7cab095d45f129bdaa310,4407
 snapshots:
 - completed:
     sha256: 3020db98a5e35009543057d6e6b96890d285890fc97688933e1798da92c8bbde
