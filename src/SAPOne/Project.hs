@@ -5,8 +5,8 @@ module SAPOne.Project where
 import Clash.Annotations.TH
 import Clash.Prelude
 import qualified Data.Text.IO as T
-
-type Word8 = BitVector 8
+import SAPOne.Memory (memory')
+import SAPOne.Types
 
 type Addr = BitVector 4
 
@@ -21,9 +21,9 @@ data Instruction
 parseInstruction :: Word8 -> Instruction
 parseInstruction input = inst
   where
-    rest = resize $ input .&. 0b00001111
+    rest = resize $ input .&. 0b0000_1111
     inst =
-      case (input .&. 0b11110000) `shiftR` 4 of
+      case (input .&. 0b1111_0000) `shiftR` 4 of
         0x0 -> LDA rest
         0x1 -> ADD rest
         0x2 -> SUB rest
@@ -68,44 +68,14 @@ busMux ::
 busMux addrOut aOut irOut memOut pcOut busSel = register 0 busMux'
   where
     busMux' =
-      mux (busSel .==. 0b00001) addrOut
-        $ mux (busSel .==. 0b00010) aOut
-        $ mux (busSel .==. 0b00100) irOut
-        $ mux (busSel .==. 0b01000) memOut
-        $ mux (busSel .==. 0b10000) pcOut 0
+      mux (busSel .==. 0b0_0001) addrOut
+        $ mux (busSel .==. 0b0_0010) aOut
+        $ mux (busSel .==. 0b0_0100) irOut
+        $ mux (busSel .==. 0b0_1000) memOut
+        $ mux (busSel .==. 0b1_0000) pcOut 0
 
 busPack :: (HiddenClockResetEnable dom) => Signal dom Bool -> Signal dom Bool -> Signal dom Bool -> Signal dom Bool -> Signal dom Bool -> Signal dom (BitVector 5)
 busPack a b c d e = pack <$> bundle (a :> b :> c :> d :> e :> Nil)
-
-memory :: (HiddenClockResetEnable dom) => Signal dom Bool -> Signal dom Word8 -> Signal dom Word8
-memory en bus = blockRamFile d16 "program.bin" mar (pure Nothing)
-  where
-    mar = register 0 (mux en busUpper mar)
-    busUpper = (.&.) 0b0000_1111 <$> bus
-
-memory' :: (HiddenClockResetEnable dom) => Signal dom Bool -> Signal dom Word8 -> Signal dom Word8
-memory' en bus = blockRam prog mar (pure Nothing)
-  where
-    prog =
-      0b0000_1101
-        :> 0b0001_1110
-        :> 0b0010_1111
-        :> 0b1111_0000
-        :> 0b0000_0000
-        :> 0b0000_0000
-        :> 0b0000_0000
-        :> 0b0000_0000
-        :> 0b0000_0000
-        :> 0b0000_0000
-        :> 0b0000_0000
-        :> 0b0000_0000
-        :> 0b0000_0000
-        :> 0b0000_0011
-        :> 0b0000_0100
-        :> 0b0000_0010
-        :> Nil
-    mar = register (0 :: Word8) (mux en busAddr mar)
-    busAddr = (.&.) 0b0000_1111 <$> bus
 
 skipFirst :: (HiddenClockResetEnable dom) => Signal dom Word8 -> Signal dom Word8
 skipFirst = mealy skipFirst' False

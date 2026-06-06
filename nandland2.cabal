@@ -92,7 +92,9 @@ library
     LightingWithLogic.Project,
     Adder.Project,
     Blinking.Project,
-    SAPOne.Project
+    SAPOne.Project,
+    SAPOne.Memory,
+    SAPOne.Types
   default-language: Haskell2010
 
 -- Builds the executable 'clash', with nandland2 project in scope
